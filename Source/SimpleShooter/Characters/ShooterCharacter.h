@@ -31,9 +31,17 @@ private:
 	void MoveForward(float AxisValue);
 
 	// Used to process horizontal movement of character
-	void MoveRight(float AxisValue);	
+	void MoveRight(float AxisValue);
+
+	void LookUpRate(float AxisValue);
+
+	void LookRightRate(float AxisValue);
 
 	// void LookUp(float AxisValue); - Not necessary because we are using AddControllerPitchInput
 
+	UPROPERTY(EditAnywhere)
+	float XRotationRate = 10.f;
 
+	UPROPERTY(EditAnywhere)
+	float YRotationRate = 10.f;
 };
