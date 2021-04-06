@@ -26,4 +26,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+	// Used to process vertical movement of character
+	void MoveForward(float AxisValue);
+
+	// Used to process horizontal movement of character
+	void MoveRight(float AxisValue);	
+
+	// void LookUp(float AxisValue); - Not necessary because we are using AddControllerPitchInput
+
+
 };
