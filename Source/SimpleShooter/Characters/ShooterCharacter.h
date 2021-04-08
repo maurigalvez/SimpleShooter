@@ -39,6 +39,9 @@ private:
 
 	void LookRightRate(float AxisValue);
 
+	// used to fire equipped weapon
+	void FireWeapon();
+
 	// void LookUp(float AxisValue); - Not necessary because we are using AddControllerPitchInput
 
 	UPROPERTY(EditAnywhere)

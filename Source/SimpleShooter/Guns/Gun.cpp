@@ -3,6 +3,7 @@
 
 #include "Gun.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGun::AGun()
@@ -15,6 +16,12 @@ AGun::AGun()
 	// create mesh component
 	this->Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	this->Mesh->SetupAttachment(this->Root);
+}
+
+void AGun::Fire()
+{
+	// spawn particle effect
+	UGameplayStatics::SpawnEmitterAttached(this->MuzzleFlash, this->Mesh, TEXT("MuzzleFlashSocket"));
 }
 
 // Called when the game starts or when spawned

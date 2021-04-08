@@ -49,7 +49,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &AShooterCharacter::LookRightRate);
 	// bind actions
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
-
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &AShooterCharacter::FireWeapon);
 }
 
 void AShooterCharacter::MoveForward(float AxisValue)
@@ -70,6 +70,11 @@ void AShooterCharacter::LookUpRate(float AxisValue)
 void AShooterCharacter::LookRightRate(float AxisValue)
 {
 	this->AddControllerYawInput(AxisValue * this->XRotationRate * this->GetWorld()->GetDeltaSeconds());
+}
+
+void AShooterCharacter::FireWeapon()
+{
+	this->EquippedGun->Fire();
 }
 
 /*void AShooterCharacter::LookUp(float AxisValue)
