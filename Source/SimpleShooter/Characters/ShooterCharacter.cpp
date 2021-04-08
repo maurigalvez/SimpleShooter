@@ -18,6 +18,13 @@ void AShooterCharacter::BeginPlay()
 	Super::BeginPlay();
 	// spawn gun
 	this->EquippedGun = this->GetWorld()->SpawnActor<AGun>(this->GunBlueprint);
+
+	// hide weapon bone
+	this->GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+
+	// attach new gun
+	this->EquippedGun->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+	this->EquippedGun->SetOwner(this);
 }
 
 // Called every frame
