@@ -2,6 +2,7 @@
 
 
 #include "ShooterCharacter.h"
+#include "SimpleShooter/Guns/Gun.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -15,7 +16,8 @@ AShooterCharacter::AShooterCharacter()
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	// spawn gun
+	this->EquippedGun = this->GetWorld()->SpawnActor<AGun>(this->GunBlueprint);
 }
 
 // Called every frame
