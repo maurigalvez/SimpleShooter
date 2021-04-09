@@ -31,6 +31,9 @@ public:
 	// Override take damage function
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintPure)
+	bool IsDead() const;
+
 private:
 	// Used to process vertical movement of character
 	void MoveForward(float AxisValue);
