@@ -25,6 +25,9 @@ void AShooterCharacter::BeginPlay()
 	// attach new gun
 	this->EquippedGun->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	this->EquippedGun->SetOwner(this);
+
+	// init health
+	this->Health = this->MaxHealth;
 }
 
 // Called every frame
@@ -50,6 +53,16 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	// bind actions
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &AShooterCharacter::FireWeapon);
+}
+
+float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float damageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	// clamp damage
+	damageTaken = FMath::Min(Health, damageTaken);
+	this->Health -= damageTaken;
+	
+	return damageTaken;
 }
 
 void AShooterCharacter::MoveForward(float AxisValue)

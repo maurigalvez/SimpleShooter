@@ -28,6 +28,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Override take damage function
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
 private:
 	// Used to process vertical movement of character
 	void MoveForward(float AxisValue);
@@ -49,6 +52,12 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float YRotationRate = 10.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float MaxHealth = 100.f;
+
+	UPROPERTY(VisibleAnywhere)
+	float Health = 0.f;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGun> GunBlueprint;

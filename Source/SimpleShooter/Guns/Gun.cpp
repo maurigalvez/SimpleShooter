@@ -46,6 +46,13 @@ void AGun::Fire()
 	{
 		FVector shotDirection = -playerViewPointRotation.Vector();
 		UGameplayStatics::SpawnEmitterAtLocation(this->GetWorld(), this->ImpactEffect, hit.Location, shotDirection.Rotation());
+		// damage actor
+		if (hit.GetActor() != nullptr)
+		{
+			// create dmaage event
+			FPointDamageEvent damageEvent(this->Damage, hit, shotDirection, nullptr);
+			hit.GetActor()->TakeDamage(this->Damage, damageEvent, ownerController, this);
+		}
 	}
 }
 
