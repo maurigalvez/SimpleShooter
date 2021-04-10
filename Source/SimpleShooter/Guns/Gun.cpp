@@ -39,9 +39,10 @@ void AGun::Fire()
 	FVector LineEndPosition = playerViewPointLocation + playerViewPointRotation.Vector() * this->MaxRange;
 	// Line trace
 	FHitResult hit;
-	FCollisionObjectQueryParams params;
-	
-	bool bSuccess = this->GetWorld()->LineTraceSingleByChannel(hit, playerViewPointLocation, LineEndPosition, ECollisionChannel::ECC_GameTraceChannel1);
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+	params.AddIgnoredActor(this->GetOwner());
+	bool bSuccess = this->GetWorld()->LineTraceSingleByChannel(hit, playerViewPointLocation, LineEndPosition, ECollisionChannel::ECC_GameTraceChannel1, params);
 	if (bSuccess)
 	{
 		FVector shotDirection = -playerViewPointRotation.Vector();

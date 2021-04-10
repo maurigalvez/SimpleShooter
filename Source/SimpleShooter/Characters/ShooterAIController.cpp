@@ -13,35 +13,11 @@ void AShooterAIController::BeginPlay()
 	// check if there's a behaviour tree
 	if (this->AIBehaviour != nullptr)
 	{
-		this->RunBehaviorTree(this->AIBehaviour);
-
-		// set start location
-		this->GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), this->GetPawn()->GetActorLocation());
-
-		// get blackboard component
-		this->GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), this->PlayerPawn->GetActorLocation());
+		this->RunBehaviorTree(this->AIBehaviour);	
 	}
-
-	/*
-	// set focus on player pawn
-	this->SetFocus(this->PlayerPawn, EAIFocusPriority::Gameplay);*/
 }
 
 void AShooterAIController::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-
-	// check if player is in sight
-	if (this->LineOfSightTo(this->PlayerPawn))
-	{
-		// get blackboard component
-		this->GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), this->PlayerPawn->GetActorLocation());
-		// get blackboard component
-		this->GetBlackboardComponent()->SetValueAsVector(TEXT("LastKnownPlayerLocation"), this->PlayerPawn->GetActorLocation());
-	}
-	// player is not in sight
-	else
-	{
-		this->GetBlackboardComponent()->ClearValue(TEXT("PlayerLocation"));		
-	}	
+	Super::Tick(DeltaTime);	
 }
