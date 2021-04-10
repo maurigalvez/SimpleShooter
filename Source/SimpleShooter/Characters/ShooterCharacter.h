@@ -31,6 +31,9 @@ public:
 	// Override take damage function
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	// used to fire equipped weapon
+	void FireWeapon();
+
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
@@ -45,11 +48,7 @@ private:
 
 	void LookRightRate(float AxisValue);
 
-	// used to fire equipped weapon
-	void FireWeapon();
-
 	// void LookUp(float AxisValue); - Not necessary because we are using AddControllerPitchInput
-
 	UPROPERTY(EditAnywhere)
 	float XRotationRate = 10.f;
 
