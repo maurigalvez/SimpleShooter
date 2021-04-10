@@ -19,5 +19,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	APawn* PlayerPawn = nullptr;
+	UPROPERTY(EditAnywhere)
+	class UBehaviorTree* AIBehaviour = nullptr;
+
+	//APawn* PlayerPawn = nullptr;
 };
