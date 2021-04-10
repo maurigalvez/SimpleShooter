@@ -3,18 +3,26 @@
 
 #include "ShooterAIController.h"
 #include "Kismet/GameplayStatics.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	this->PlayerPawn = UGameplayStatics::GetPlayerPawn(this->GetWorld(), 0);
 	// check if there's a behaviour tree
 	if (this->AIBehaviour != nullptr)
 	{
 		this->RunBehaviorTree(this->AIBehaviour);
+
+		// set start location
+		this->GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"), this->GetPawn()->GetActorLocation());
+
+		// get blackboard component
+		this->GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), this->PlayerPawn->GetActorLocation());
 	}
 
-	/*this->PlayerPawn = UGameplayStatics::GetPlayerPawn(this->GetWorld(),0);
+	/*
 	// set focus on player pawn
 	this->SetFocus(this->PlayerPawn, EAIFocusPriority::Gameplay);*/
 }
@@ -24,15 +32,16 @@ void AShooterAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// check if player is in sight
-	/*if (this->LineOfSightTo(this->PlayerPawn))
+	if (this->LineOfSightTo(this->PlayerPawn))
 	{
-		// move actor
-		this->MoveToActor(this->PlayerPawn, this->MaxDistanceFromTarget);
+		// get blackboard component
+		this->GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), this->PlayerPawn->GetActorLocation());
+		// get blackboard component
+		this->GetBlackboardComponent()->SetValueAsVector(TEXT("LastKnownPlayerLocation"), this->PlayerPawn->GetActorLocation());
 	}
 	// player is not in sight
 	else
 	{
-		this->ClearFocus(EAIFocusPriority::Gameplay);
-		this->StopMovement();
-	}	*/
+		this->GetBlackboardComponent()->ClearValue(TEXT("PlayerLocation"));		
+	}	
 }
