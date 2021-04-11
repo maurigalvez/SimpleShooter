@@ -42,16 +42,21 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* Mesh = nullptr;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "General")
+		float MaxRange = 1000.f;
+
+	UPROPERTY(EditAnywhere, Category = "General")
+		float Damage = 10.f;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
 	UParticleSystem* MuzzleFlash = nullptr;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	USoundBase* MuzzleSound = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
 	UParticleSystem* ImpactEffect = nullptr;
 
-	UPROPERTY(EditAnywhere)
-	float MaxRange = 1000.f;
-
-	UPROPERTY(EditAnywhere)
-	float Damage = 10.f;
-
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	USoundBase* ImpactSound = nullptr;
 };

@@ -55,14 +55,16 @@ bool AGun::GunTrace(FHitResult& Hit, FVector& ShotDirection)
 
 void AGun::Fire()
 {
-	// spawn particle effect
+	// spawn MF particle effect and sound
 	UGameplayStatics::SpawnEmitterAttached(this->MuzzleFlash, this->Mesh, TEXT("MuzzleFlashSocket"));
+	UGameplayStatics::SpawnSoundAttached(this->MuzzleSound, this->Mesh, TEXT("MuzzleFlashSocket"));
 	FHitResult hit;
 	FVector shotDirection;
 	bool bSuccess = GunTrace(hit, shotDirection);
 	if (bSuccess)
 	{		
 		UGameplayStatics::SpawnEmitterAtLocation(this->GetWorld(), this->ImpactEffect, hit.Location, shotDirection.Rotation());
+		UGameplayStatics::SpawnSoundAtLocation(this->GetWorld(), this->ImpactSound, hit.Location, shotDirection.Rotation());
 		// damage actor
 		if (hit.GetActor() != nullptr)
 		{
