@@ -19,5 +19,7 @@ public:
     void PawnKilled(APawn* PawnKilled) override;
 
 private:
+    // Handle End Game event
     void EndGame(bool bIsPlayerWinner);
+
 };
