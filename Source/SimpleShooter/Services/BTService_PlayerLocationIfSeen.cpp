@@ -34,7 +34,7 @@ void UBTService_PlayerLocationIfSeen::TickNode(UBehaviorTreeComponent& OwnerComp
 	if (AIController->LineOfSightTo(PlayerPawn))
 	{
 		// get blackboard component
-		blackBoardComponent->SetValueAsVector(this->GetSelectedBlackboardKey(), PlayerPawn->GetActorLocation());	
+		blackBoardComponent->SetValueAsObject(this->GetSelectedBlackboardKey(), PlayerPawn);	
 	}
 	// player is not in sight
 	else
