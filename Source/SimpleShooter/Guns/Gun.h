@@ -18,14 +18,23 @@ public:
 	// Fire this weapon
 	void Fire();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;	
+
+private:
+	// Return whether gun hit something, and passes OUT hit and OUT shotDirection
+	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
+
+	// Return owner controller
+	AController* GetOwnerController() const;
+
+	// ------------
+	// PROPERTIES
+	// ------------
 private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root = nullptr;
@@ -44,4 +53,5 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float Damage = 10.f;
+
 };

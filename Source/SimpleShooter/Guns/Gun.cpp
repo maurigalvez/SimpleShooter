@@ -19,18 +19,24 @@ AGun::AGun()
 	this->Mesh->SetupAttachment(this->Root);
 }
 
-void AGun::Fire()
+AController* AGun::GetOwnerController() const
 {
-	// spawn particle effect
-	UGameplayStatics::SpawnEmitterAttached(this->MuzzleFlash, this->Mesh, TEXT("MuzzleFlashSocket"));
-	// get owner pawn
+	// get and validate owner pawn
 	APawn* ownerPawn = Cast<APawn>(GetOwner());
 	if (ownerPawn == nullptr)
-		return;
-	AController* ownerController = ownerPawn->GetController();
-	if (ownerController == nullptr)
-		return;
+		return nullptr;
 
+	return ownerPawn->GetController();
+}
+
+bool AGun::GunTrace(FHitResult& Hit, FVector& ShotDirection)
+{
+	// get and validate player controller
+	AController* ownerController = this->GetOwnerController();
+	if (ownerController == nullptr)
+	{
+		return false;
+	}
 	// get player viewpoint
 	FVector playerViewPointLocation = FVector::ZeroVector;
 	FRotator playerViewPointRotation = FRotator::ZeroRotator;
@@ -38,18 +44,34 @@ void AGun::Fire()
 
 	FVector LineEndPosition = playerViewPointLocation + playerViewPointRotation.Vector() * this->MaxRange;
 	// Line trace
-	FHitResult hit;
+
 	FCollisionQueryParams params;
 	params.AddIgnoredActor(this);
 	params.AddIgnoredActor(this->GetOwner());
-	bool bSuccess = this->GetWorld()->LineTraceSingleByChannel(hit, playerViewPointLocation, LineEndPosition, ECollisionChannel::ECC_GameTraceChannel1, params);
+
+	ShotDirection = -playerViewPointRotation.Vector();
+	return this->GetWorld()->LineTraceSingleByChannel(Hit, playerViewPointLocation, LineEndPosition, ECollisionChannel::ECC_GameTraceChannel1, params);
+}
+
+void AGun::Fire()
+{
+	// spawn particle effect
+	UGameplayStatics::SpawnEmitterAttached(this->MuzzleFlash, this->Mesh, TEXT("MuzzleFlashSocket"));
+	FHitResult hit;
+	FVector shotDirection;
+	bool bSuccess = GunTrace(hit, shotDirection);
 	if (bSuccess)
-	{
-		FVector shotDirection = -playerViewPointRotation.Vector();
+	{		
 		UGameplayStatics::SpawnEmitterAtLocation(this->GetWorld(), this->ImpactEffect, hit.Location, shotDirection.Rotation());
 		// damage actor
 		if (hit.GetActor() != nullptr)
 		{
+			// get and validate owner controller
+			AController* ownerController = this->GetOwnerController();
+			if (ownerController == nullptr)
+			{
+				return;
+			}
 			// create dmaage event
 			FPointDamageEvent damageEvent(this->Damage, hit, shotDirection, nullptr);
 			hit.GetActor()->TakeDamage(this->Damage, damageEvent, ownerController, this);
