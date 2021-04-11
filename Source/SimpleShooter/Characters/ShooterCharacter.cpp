@@ -67,14 +67,14 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	// check if player is dead
 	if (this->IsDead())
 	{
-		this->DetachFromControllerPendingDestroy();
-		this->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		// get hold of game mode and fire pawnkilled
 		ASimpleShooterGameModeBase* GameMode = this->GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();
 		if (GameMode != nullptr)
 		{
 			GameMode->PawnKilled(this);
 		}
+		this->DetachFromControllerPendingDestroy();
+		this->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);	
 	}
 
 	return damageTaken;
