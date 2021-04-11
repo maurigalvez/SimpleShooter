@@ -4,6 +4,7 @@
 #include "ShooterAIController.h"
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "SimpleShooter/Characters/ShooterCharacter.h"
 
 void AShooterAIController::BeginPlay()
 {
@@ -15,6 +16,18 @@ void AShooterAIController::BeginPlay()
 	{
 		this->RunBehaviorTree(this->AIBehaviour);	
 	}
+}
+
+bool AShooterAIController::IsDead() const
+{
+	// check whether this character is dead
+	AShooterCharacter* ShooterCharacter = Cast<AShooterCharacter>(this->GetPawn());
+	if (ShooterCharacter != nullptr)
+	{
+		return ShooterCharacter->IsDead();
+	}
+	// if we don't have a pawn then yes, it's dead
+	return true;
 }
 
 void AShooterAIController::Tick(float DeltaTime)

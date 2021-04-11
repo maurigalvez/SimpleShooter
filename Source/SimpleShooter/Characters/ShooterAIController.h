@@ -16,6 +16,9 @@ class SIMPLESHOOTER_API AShooterAIController : public AAIController
 public:
 	virtual void Tick(float DeltaTime) override;
 
+	// check whether the controlled character is dead
+	bool IsDead() const;
+
 protected:
 	virtual void BeginPlay() override;
 
