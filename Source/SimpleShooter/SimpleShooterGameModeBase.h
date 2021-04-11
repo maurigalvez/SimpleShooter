@@ -18,6 +18,9 @@ public:
 	// fired when a pawn is killed
 	virtual void PawnKilled(APawn* PawnKilled);
 
+	UFUNCTION(BlueprintPure)
+	int GetEnemyCount();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -25,6 +28,9 @@ protected:
 	void SpawnEnemies();
 	// Fired when game is started
 	void GameStart();
+
+	
+	int EnemyCount = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Game Settings")
 	TSubclassOf<class AShooterCharacter> EnemyToSpawn;

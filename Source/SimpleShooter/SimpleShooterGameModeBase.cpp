@@ -16,19 +16,30 @@ void ASimpleShooterGameModeBase::BeginPlay()
 
 void ASimpleShooterGameModeBase::PawnKilled(APawn* PawnKilled)
 {
+	// check if pawn killed is not a player
+	APlayerController* PlayerController = Cast<APlayerController>(PawnKilled->GetController());
+	if (PlayerController == nullptr)
+	{
+		this->EnemyCount--;	
+	}
+}
 
+int ASimpleShooterGameModeBase::GetEnemyCount()
+{
+	return this->EnemyCount;
 }
 
 void ASimpleShooterGameModeBase::SpawnEnemies()
 {
 	TArray<AActor*> SpawnPoints;
 	UGameplayStatics::GetAllActorsOfClass(this->GetWorld(), ASpawnPoint::StaticClass(), SpawnPoints);
-
+	this->EnemyCount = 0;
 	// iterate through spawnPoints to spawn turrets
 	for (AActor* spawnPoint : SpawnPoints)
 	{
 		// spawn actor
 		GetWorld()->SpawnActor<AShooterCharacter>(this->EnemyToSpawn, spawnPoint->GetActorLocation(), spawnPoint->GetActorRotation());
+		this->EnemyCount++;
 	}
 }
 

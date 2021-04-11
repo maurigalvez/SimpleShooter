@@ -58,8 +58,13 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 }
 
 float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{
+{	
 	float damageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	// make sure that you cannot fire if it's already dead
+	if (this->IsDead())
+	{
+		return damageTaken;
+	}
 	// clamp damage
 	damageTaken = FMath::Min(Health, damageTaken);
 	this->Health -= damageTaken;
