@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
+	UFUNCTION(BlueprintPure)
+	float GetHealthPercent() const;
+
 private:
 	// Used to process vertical movement of character
 	void MoveForward(float AxisValue);
